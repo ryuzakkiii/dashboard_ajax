@@ -16,209 +16,201 @@
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-<div class="jumbotron" style="background-color : #1E90FF;">
 
 <!--recap-->
-
-<?php        
-        $total_stock = 0;
-        $total_vendu = 0;
-        $total_montant = 0;
-        $total_reste = 0;
-        foreach ($valeur as $value): 
-            $total_stock += $value->quantite;
-            $total_vendu += $value->quantite_vendu;
-            $total_montant += $value->montant;
-            $total_reste += $value->reste; 
-        endforeach;
-    ?>
+    <div class="jumbotron" style="background-color : #1E90FF;">
         <div class="container-fluide">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="card border-info mx-sm-1 p-3" >
-                            <div class="card border-info shadow text-info p-3 my-card" style="height : 70px;width :70px; position:absolute;left:35%;top:-40px;border-radius:50%;"><img src="./public/images/stocks.png" alt=""></div>
-                            <div class="text-info text-center mt-3"><h4>Stock</h4></div>
-                            <div class="text-info text-center mt-2"><?php echo $total_stock;?></div>
+                            <div class="card border-info shadow text-info p-3 my-card" style="height : 70px;width :70px; position:absolute;left:35%;top:-40px;border-radius:50%;"><img src="./public/images/appel.jpg" alt=""></div>
+                            <div class="text-info text-center mt-3"><h4>Total appel</h4></div>
+                            <div class="text-info text-center mt-2" id="totappel"><p>valeur</p></div>
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="card border-info mx-sm-1 p-3" >
-                            <div class="card border-info shadow text-info p-3 my-card" style="height : 70px;width :70px;position:absolute;left:35%;top:-40px;"><img src="./public/images/vendu.jpg" style="height : 100%;width :100%; alt=""></div>
-                            <div class="text-info text-center mt-3"><h4>Total Vendu</h4></div>
-                            <div class="text-info text-center mt-2"><?php echo $total_vendu;?></div>
+                        
+                            <div class="text-info text-center mt-3" ><h4>Appel Qualifié</h4></div>
+                            <div class="text-info text-center mt-2" id="aqualifie"><p>valeur</p></div>
+                            
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="card border-info mx-sm-1 p-3" >
-                            <div class="card border-info shadow text-info p-3 my-card" style="height : 70px;width :70px; position:absolute;left:35%;top:-40px;border-radius:50%;"><img src="./public/images/money.png" alt=""></div>
-                            <div class="text-info text-center mt-3"><h4>Caisse</h4></div>
-                            <div class="text-info text-center mt-2"><?php echo $total_montant;?></div>
+                            <div class="text-info text-center mt-3"><h4>Répondeur</h4></div>
+                            <div class="text-info text-center mt-2" id="repondeur"><p>valeur</p></div>
+                            
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="card border-info mx-sm-1 p-3" >
-                            <div class="card border-info shadow text-info p-3 my-card" style="height : 70px;width :70px; position:absolute;left:35%;top:-40px;"><img src="./public/images/reste_stock.jpg" alt=""></div>
-                            <div class="text-info text-center mt-3"><h4>Reste Stock</h4></div>
-                            <div class="text-info text-center mt-2"><?php echo $total_reste;?></div>
+                            <div class="text-info text-center mt-3"><h4>Rappel</h4></div>
+                            <div class="text-info text-center mt-2" id="rappel"><p>valeur</p></div>
+                            
                         </div>
                     </div>
-                </div>          
+                    <div class="col-sm-2">
+                        <div class="card border-info mx-sm-1 p-3" >
+                            <div class="text-info text-center mt-3"><h4>Injoignable</h4></div>
+                            <div class="text-info text-center mt-2" id="injoign"><p>valeur</p></div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="card border-info mx-sm-1 p-3" >
+                            <div class="text-info text-center mt-3"><h4>Test</h4></div>
+                            <div class="text-info text-center mt-2" id="test"><p>valeur</p></div>
+                            
+                        </div>
+                    </div>
+                </div>  
+        
         </div>
-        </div>
+        <input type="date" id="date">
+
+    </div>
 
         <!--filtre par produit-->
 
 
-        <div class="container-fluide">
-            <div class="row">
-            <div class="col-4">                
-                    <h4> Detail Commande par produit </h4>
+    <div class="container">
+                <h4>Detail Appel</h4>
+                    <select name="agent" id="agent">
+                        <option value="-----------">---choisi un nom-----</option>
+                    <?php foreach($agent as $agents):?>
+                        <option value="<?php echo $agents->agentname;?>"><?php echo $agents->agentname;?></option>
+                    <?php endforeach;?>                
+                    </select> 
+                    <div>
+                        <table class="table table-sm table-light">
+                            <thead>
+                                <tr>
+                                <th scope="col">Agent Name</th>
+                                <th scope="col">Appel total</th>
+                                <th scope="col">Appel Qualifié</th>
+                                <th scope="col">Repondeur</th>
+                                <th scope="col">Injoignable</th>
+                                <th scope="col">Rappel</th>
+                                <th scope="col">Rappel programme</th>
 
-                    <div class="card  mx-sm p-3" id="filtre_prod">
+                                </tr>
+                            </thead>
+                            <tbody id="filtre">
+                                <tr>
+                                
+                                </tr>
+                        </table>
+                    </div>                    
+            </div>
+    </div>   
 
-
-                                <form method="post">
-                        
-                                <select id="filtre">
-                                <?php foreach($detail as $details) : ?>
-                                    <option id="produit" value="<?php echo $details->designation_produit?>"><?php echo $details->designation_produit?></option>
-                                <?php endforeach;?>  
-                                </select>
-
-                                <br>
-                                    <table id="prod" class="table table-sm" > 
-                                        <thead>
-                                            <tr>
-                                                <th>Nom client</th>
-                                                <th>Produit</th>
-                                                <th>Nombre</th>
-                                                <th>Date commande</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            <tr>
-                                    
-                                            </tr>
-                                        </tbody>
-                                    </table> 
-                                </form>
-                    </div> 
-
-                <!--filtre par date-->
-
-                    <h4> Detail Commande par date </h4>
-
-                    <div class="card  mx-sm p-3" id="filtre_date">
-                        <form method="post">                        
-                            <input type="date" id="date"  value="2019-04-29">
-                                    <table id="prod_date" class="table table-sm" > 
-                                        <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Produit</th>
-                                                <th>Nom client</th>
-                                                <th>Nombre</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            <tr>
-                                    
-                                            </tr>
-                                        </tbody>
-                                    </table> 
-                        </form>
-                    </div> 
-                </div>
-                <div class="col-8">
-                    <h4 data-toggle="collapse" href="#collapse1"><button type="button" class="list-group-item list-group-item-action active">
-                    Detail Produit
-                    </button></h4>
-                    <div class="panel-group">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                </h4>
-                            </div>
-                            <div id="collapse1" class="panel-collapse collapse">
-                            <div class="row" id="recap_prod">
-                                <?php foreach ($valeur as $resultat): ?>
-
-                                    <div class="col-2">
-                                        <div class="card bg-light mb-3">
-                                            <div class="card-header"><?php echo $resultat->designation_produit;?></div>
-                                            <div class="card-body">
-                                                <p>Stock : <?php echo $resultat->quantite;?></p>
-                                                <p>Vendu : <?php echo $resultat->quantite_vendu;?></p>
-                                                <p>Montant : <?php echo $resultat->montant;?></p>
-                                                <p>Reste : <?php echo $resultat->reste;?></p>
-                                            </div>
-                                        </div>            
-                                    </div>
-                                <?php endforeach;?>            
-
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    
-        </div>
-</div>   
-
-    
-</div>
 <script>
+//filtre par agent
+$(document).ready(function(){
 
-//filtre par date
+    $('#date').change(function(){
+        var dates = $(this).val();
+
+        $.ajax({
+        url : '<?php echo base_url();?>acceuil/valeur',
+            method : "POST",
+            data : {dates: dates},
+            dataType: 'json',
+            error : function(){
+                alert('something wrong');
+            },
+            success : function(data){
+                
+                $.each(data,function(){ 
+                    $('#totappel').find('p').remove();
+                    $('#totappel').append('<p></p>'); 
+                    $('#aqualifie').find('p').remove();
+                    $('#aqualifie').append('<p></p>');
+                    $('#repondeur').find('p').remove();
+                    $('#repondeur').append('<p></p>');
+                    $('#rappel').find('p').remove();
+                    $('#rappel').append('<p></p>');
+                    $('#injoign').find('p').remove();
+                    $('#injoign').append('<p></p>');
+                    $('#test').find('p').remove();
+                    $('#test').append('<p></p>');
+                    $('#totappel p').append(data['totappel'][0]['toppel']);
+                    $('#aqualifie p').append(data['aqualifie'][0]['aqualifie']);
+                    $('#repondeur p').append(data['repondeur'][0]['repondeur']);
+                    $('#rappel p').append(data['rappel'][0]['rappel']);
+                    $('#injoign p').append(data['injoign'][0]['injoign']);
+                    $('#test p').append(data['test'][0]['test']);
+                    $('#')
+                }); 
+            }
+            
+
+        })
+
+    });
+
+});
+
+
+//filtre par agent
+$(document).ready(function(){
+
+    $('#agent').change(function(){
+        var agentname = $(this).val();
+        var dates = $("#date").val();
+
+        $.ajax({
+        url : '<?php echo base_url();?>acceuil/filtre',
+            method : "POST",
+            data : {agentname: agentname, dates : dates},
+            dataType: 'json',
+            error : function(){
+                alert('something wrong');
+            },
+            success : function(agent){
+                $('#filtre').find('tr').remove();
+                $('#filtre').append('<tr></tr>');
+                $.each(agent,function(index,data){  
+                    $('#filtre').find('tr').append('<td>' + data['agentname'] + '</td><td>' + data['tous'] + '</td><td>' + data['qualifie'] + '</td><td>' + data['repondeur'] +'</td><td>' + data['ijoign'] + '</td><td>' + data['rappel'] + '</td><td>' + data['rappelp'] + '</td>') ;
+                });       
+            }          
+
+        })
+
+    });
+
+});
+
+
 $(document).ready(function(){
 
 $('#date').change(function(){
-    var  date_commande = $(this).val();
+    var dates = $(this).val();
+    var agentname = $("#agent").val();
 
     $.ajax({
-        url : '<?php echo base_url();?>acceuil/filtre_par_date',
+    url : '<?php echo base_url();?>acceuil/filtre',
         method : "POST",
-        data : {date_commande: date_commande},
+        data : {agentname: agentname, dates : dates},
         dataType: 'json',
         error : function(){
             alert('something wrong');
         },
-        success : function(date){
-            $('#prod_date').find('tbody').remove();
-            $('#prod_date').append('<tbody style="font-size : 12px;"></tbody>');
-            $.each(date,function(index,data){  
-                $('#prod_date').find('tbody').append('<tr><td>' + data['date_commande'] + '</td><td>' + data['designation_produit'] + '</td><td>' + data['nom_client'] + '</td><td>' + data['quantite_vendu'] + '</td></tr>') ;
-        });        
-        }
-        
+        success : function(agent){
+            $('#filtre').find('tr').remove();
+            $('#filtre').append('<tr></tr>');
+            $.each(agent,function(index,data){  
+                $('#filtre').find('tr').append('<td>' + data['agentname'] + '</td><td>' + data['tous'] + '</td><td>' + data['qualifie'] + '</td><td>' + data['repondeur'] + '</td><td>' + data['ijoign'] + '</td><td>' + data['rappel'] + '</td><td>' + data['rappelp'] + '</td>') ;
+            });       
+        }          
 
     })
 
 });
-$('#filtre').change(function(){
-  var designation_produit  = $(this).val();
-
-  $.ajax({
-    url: '<?php echo base_url();?>acceuil/filtre_par_produit',
-    method : "POST",
-    data : {designation_produit: designation_produit},
-    dataType : 'json',
-    error: function() {
-      alert('Something is wrong');
-    },
-    success: function(valeur){
-      $('#prod').find('tbody').remove();
-      $('#prod').append('<tbody style="font-size : 12px;"></tbody>');
-      $.each(valeur,function(index,data){  
-        $('#prod').find('tbody').append('<tr><td>' + data['nom_client'] + '</td><td>' + data['designation_produit'] + '</td><td>' + data['quantite_vendu'] + '</td><td>' + data['date_commande'] + '</td></tr>') ;
-      });
-      
-    }
-  });
 
 });
-});
+
 </script>

@@ -2,23 +2,81 @@
 
 class Acceuil_model extends CI_Model {
 
-    public function produit_and_reste(){
+    public function total_appel($dates){
 
 
-        $vendu = $this->db->query("SELECT COALESCE(c.[designation_produit], p.[designation_produit]) as designation_produit
-        ,COALESCE(SUM(c.[quantite_vendu]), 0) as quantite_vendu,
-        p.[quantite],   
-        COALESCE(p.quantite-SUM(c.[quantite_vendu]), p.quantite) as reste,
-        COALESCE(p.prix_unitaire*SUM(c.[quantite_vendu]), 0) as montant
-        FROM [wallboard].[dbo].[commande] c full outer join [wallboard].[dbo].[produit] 
-        p on c.designation_produit = p.designation_produit
-        group by p.quantite, p.designation_produit, c.designation_produit, p.prix_unitaire");
-        $vendus = $vendu->result();
+        $totappels = $this->db->query("SELECT count(*) as toppel
+        FROM ct_NOMINATION_AUDE where typecall is not null and calling_date = '$dates'");
+        $totappel = $totappels->result();
         //var_dump($vendus);die();
-         return $vendus;
+         return $totappel;
     }
 
-    public function produit(){
+    public function appel_qualifié($dates){
+        $aqualifies = $this->db->query("SELECT COUNT(*) as aqualifie
+        FROM ct_NOMINATION_AUDE where typecall = '571_QUALIFICATION_TOTALE' and calling_date = '$dates'"); 
+        $aqualifie = $aqualifies->result();
+        return $aqualifie;
+    }
+
+    public function appel_test($dates){
+        $tests = $this->db->query("SELECT COUNT(*) as test
+        FROM ct_NOMINATION_AUDE where typecall = '571_TEST' and calling_date = '$dates'"); 
+        $test = $tests->result();
+        return $test;
+    }
+
+    public function repondeur($dates){
+        $repondeurs = $this->db->query("SELECT COUNT(*) as repondeur
+        FROM ct_NOMINATION_AUDE where typecall = '571_REPONDEUR' and calling_date = '$dates'"); 
+        $repondeur = $repondeurs->result();
+        return $repondeur;
+    }
+
+    public function rappel($dates){
+        $rappels = $this->db->query("SELECT COUNT(*) as rappel
+        FROM ct_NOMINATION_AUDE where typecall like '571_RAPPEL%' and calling_date = '$dates'"); 
+        $rappel = $rappels->result();
+        return $rappel;
+    }
+    
+
+    public function injoignable($dates){
+        $injoigns = $this->db->query("SELECT COUNT(*) as injoign
+        FROM ct_NOMINATION_AUDE where typecall = '571_INJOIGNABLE' and calling_date = '$dates'"); 
+        $injoign = $injoigns->result();
+        return $injoign;
+    }
+
+    
+    
+    public function filtre($agentname, $dates){
+        $agent = array();
+        $agents = $this->db->query("SELECT  agentname, COUNT(typecall) as tous, (select COUNT(typecall)
+         FROM ct_NOMINATION_AUDE where agentname
+        = '$agentname' and calling_date = '$dates' and typecall = '571_QUALIFICATION_TOTALE') as qualifie,
+        (select COUNT(typecall) FROM ct_NOMINATION_AUDE where agentname
+        = '$agentname' and calling_date = '$dates' and typecall = '571_REPONDEUR') as repondeur,
+        (select COUNT(typecall) FROM ct_NOMINATION_AUDE where agentname
+        = '$agentname' and calling_date = '$dates' and typecall = '571_INJOIGNABLE') as ijoign,
+        (select COUNT(typecall) FROM ct_NOMINATION_AUDE where agentname
+        = '$agentname' and calling_date = '$dates' and typecall = '571_RAPPEL') as rappel,
+        (select COUNT(typecall) FROM ct_NOMINATION_AUDE where agentname
+        = '$agentname' and calling_date = '$dates' and typecall = '571_RAPPEL_PROGRAMME') as rappelp
+                FROM ct_NOMINATION_AUDE  where agentname = '$agentname' and calling_date = '$dates' and agentname is not null
+                 group by agentname");
+        $agent = $agents->result_array();
+        return $agent;
+    }
+    
+
+    public function agent(){
+        $noms = $this->db->query("select distinct agentname from [easy].[dbo].[ct_NOMINATION_AUDE] where agentname is not null");
+        $nom = $noms->result();
+        return $nom;
+    }
+
+    /*public function produit(){
         $detail = $this->db->query("SELECT [designation_produit]
         ,[prix_unitaire]
         ,[quantite]
@@ -58,7 +116,7 @@ class Acceuil_model extends CI_Model {
 
         return $date;
 
-    }
+    }*/
 
 
 }

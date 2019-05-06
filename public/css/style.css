@@ -18,12 +18,7 @@
 }
 h4{
     color :#778899;
-}
-[data-toggle="collapse"] {
-    cursor: pointer;
-    &[aria-expanded="true"] .fa-chevron-right:before {
-      content: "\f078";
-    }
+    font-size: 30px;
 }
 #detail{
     display: none;

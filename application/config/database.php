@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'JAONA-IAM',
-	'username' => '',
-	'password' => '',
-	'database' => 'wallboard',
+	'hostname' => '192.168.10.64',
+	'username' => 'rekety',
+	'password' => 'm02p@sy',
+	'database' => 'easy',
 	'dbdriver' => 'sqlsrv',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
